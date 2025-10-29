@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Modal Test</title>
+  <link rel="stylesheet" href="design-system.css">
+  <link rel="stylesheet" href="components.css">
+</head>
+<body>
+
+  <div style="padding: 50px;">
+    <h1>弹窗关闭测试</h1>
+    <button class="btn btn-primary" onclick="openTestModal()">打开测试弹窗</button>
+  </div>
+
+  <!-- Test Modal -->
+  <div class="modal-backdrop hidden" id="testModal">
+    <div class="modal">
+      <div class="modal-header">
+        <h2 class="modal-title">测试弹窗</h2>
+        <button class="btn btn-ghost btn-sm" onclick="closeTestModal()">✕</button>
+      </div>
+      <div class="modal-content">
+        <p>这是一个测试弹窗</p>
+        <p>尝试以下关闭方式：</p>
+        <ul>
+          <li>点击 ✕ 按钮</li>
+          <li>点击"取消"按钮</li>
+          <li>点击弹窗外部</li>
+          <li>按 ESC 键</li>
+        </ul>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" onclick="closeTestModal()">取消</button>
+        <button class="btn btn-primary">确认</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function openTestModal() {
+      console.log('Opening modal...');
+      const modal = document.getElementById('testModal');
+      modal.classList.remove('hidden');
+    }
+
+    function closeTestModal() {
+      console.log('Closing modal...');
+      const modal = document.getElementById('testModal');
+      modal.classList.add('hidden');
+    }
+
+    // Click outside to close
+    document.addEventListener('click', (event) => {
+      console.log('Click detected on:', event.target.className);
+      if (event.target.classList.contains('modal-backdrop')) {
+        console.log('Clicked on backdrop, closing...');
+        event.target.classList.add('hidden');
+      }
+    });
+
+    // Stop propagation from modal content
+    document.addEventListener('DOMContentLoaded', () => {
+      const modal = document.querySelector('.modal');
+      if (modal) {
+        modal.addEventListener('click', (event) => {
+          console.log('Click on modal content, stopping propagation');
+          event.stopPropagation();
+        });
+      }
+    });
+
+    // ESC to close
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape') {
+        console.log('ESC pressed, closing modal...');
+        const modals = document.querySelectorAll('.modal-backdrop:not(.hidden)');
+        modals.forEach(modal => {
+          modal.classList.add('hidden');
+        });
+      }
+    });
+  </script>
+
+</body>
+</html>

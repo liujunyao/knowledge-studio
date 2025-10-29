@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>欢迎 - Knowledge Studio</title>
+  <link rel="stylesheet" href="design-system.css">
+  <link rel="stylesheet" href="components.css">
+  <style>
+    .welcome-container {
+      display: flex;
+      height: 100vh;
+    }
+
+    .welcome-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: var(--spacing-16);
+      background: linear-gradient(135deg, var(--primary-50) 0%, var(--bg-primary) 100%);
+    }
+
+    .welcome-hero {
+      text-align: center;
+      margin-bottom: var(--spacing-16);
+    }
+
+    .welcome-logo {
+      font-size: 64px;
+      margin-bottom: var(--spacing-6);
+    }
+
+    .welcome-title {
+      font-size: var(--font-size-4xl);
+      font-weight: var(--font-weight-bold);
+      color: var(--primary-500);
+      margin-bottom: var(--spacing-3);
+    }
+
+    .welcome-subtitle {
+      font-size: var(--font-size-xl);
+      color: var(--text-secondary);
+      margin-bottom: var(--spacing-8);
+    }
+
+    .template-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--spacing-6);
+      width: 100%;
+      max-width: 1000px;
+    }
+
+    .template-card {
+      background-color: var(--bg-primary);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      padding: var(--spacing-6);
+      cursor: pointer;
+      transition: all var(--transition-smooth);
+    }
+
+    .template-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-lg);
+      border-color: var(--primary-500);
+    }
+
+    .template-icon {
+      font-size: 48px;
+      margin-bottom: var(--spacing-4);
+    }
+
+    .template-title {
+      font-size: var(--font-size-xl);
+      font-weight: var(--font-weight-semibold);
+      margin-bottom: var(--spacing-2);
+    }
+
+    .template-description {
+      font-size: var(--font-size-sm);
+      color: var(--text-secondary);
+      line-height: 1.6;
+      margin-bottom: var(--spacing-4);
+    }
+
+    .template-features {
+      display: flex;
+      flex-direction: column;
+      gap: var(--spacing-2);
+      margin-bottom: var(--spacing-4);
+    }
+
+    .template-feature {
+      font-size: var(--font-size-sm);
+      color: var(--text-secondary);
+      display: flex;
+      align-items: center;
+      gap: var(--spacing-2);
+    }
+
+    .template-feature::before {
+      content: "•";
+      color: var(--primary-500);
+      font-weight: bold;
+    }
+
+    @media (max-width: 1200px) {
+      .template-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 768px) {
+      .template-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="welcome-container">
+    <!-- Sidebar (Simplified) -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <div class="sidebar-logo">Knowledge Studio</div>
+      </div>
+
+      <div class="sidebar-search">
+        <div class="search-bar">
+          <span class="search-bar-icon">🔍</span>
+          <input type="text" class="input search-bar-input" placeholder="搜索对话...">
+          <span class="search-bar-shortcut">⌘K</span>
+        </div>
+      </div>
+
+      <div class="sidebar-new-conversation">
+        <button class="btn btn-primary btn-md w-full" onclick="location.href='index.html'">
+          <span>➕</span>
+          <span>新对话</span>
+        </button>
+      </div>
+
+      <div class="sidebar-content">
+        <div class="empty-state">
+          <div class="empty-state-icon">💬</div>
+          <div class="empty-state-description text-sm">
+            还没有对话<br>开始你的第一个对话吧！
+          </div>
+        </div>
+      </div>
+
+      <div class="sidebar-footer">
+        <div class="sidebar-user">
+          <div class="avatar avatar-sm">
+            <span>张</span>
+          </div>
+          <span class="sidebar-user-name">张三</span>
+          <button class="btn btn-ghost btn-icon btn-sm">⚙️</button>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Welcome Content -->
+    <main class="welcome-content">
+      <!-- Hero Section -->
+      <div class="welcome-hero">
+        <div class="welcome-logo">🧠</div>
+        <h1 class="welcome-title">Knowledge Studio</h1>
+        <p class="welcome-subtitle">AI 对话 × 知识管理 × 深度探索</p>
+        <button class="btn btn-primary btn-lg" onclick="location.href='index.html'">
+          <span>➕</span>
+          <span>开始新对话</span>
+        </button>
+      </div>
+
+      <!-- Quick Start Section -->
+      <div style="width: 100%; max-width: 1000px;">
+        <h2 class="text-2xl font-semibold mb-6 text-center">快速开始</h2>
+
+        <div class="template-grid">
+          <!-- Template 1: 技术学习 -->
+          <div class="template-card" onclick="selectTemplate('tech')">
+            <div class="template-icon">💡</div>
+            <h3 class="template-title">技术学习</h3>
+            <div class="template-features">
+              <div class="template-feature">探索新技术栈</div>
+              <div class="template-feature">深入理解原理</div>
+              <div class="template-feature">解决技术难题</div>
+            </div>
+            <button class="btn btn-secondary btn-sm w-full">
+              选择此模板 →
+            </button>
+          </div>
+
+          <!-- Template 2: 产品设计 -->
+          <div class="template-card" onclick="selectTemplate('product')">
+            <div class="template-icon">📝</div>
+            <h3 class="template-title">产品设计</h3>
+            <div class="template-features">
+              <div class="template-feature">产品需求分析</div>
+              <div class="template-feature">用户体验设计</div>
+              <div class="template-feature">功能规划讨论</div>
+            </div>
+            <button class="btn btn-secondary btn-sm w-full">
+              选择此模板 →
+            </button>
+          </div>
+
+          <!-- Template 3: 创意写作 -->
+          <div class="template-card" onclick="selectTemplate('writing')">
+            <div class="template-icon">🎨</div>
+            <h3 class="template-title">创意写作</h3>
+            <div class="template-features">
+              <div class="template-feature">故事创作辅助</div>
+              <div class="template-feature">文案优化建议</div>
+              <div class="template-feature">内容灵感激发</div>
+            </div>
+            <button class="btn btn-secondary btn-sm w-full">
+              选择此模板 →
+            </button>
+          </div>
+
+          <!-- Template 4: 科研助手 -->
+          <div class="template-card" onclick="selectTemplate('research')">
+            <div class="template-icon">🔬</div>
+            <h3 class="template-title">科研助手</h3>
+            <div class="template-features">
+              <div class="template-feature">论文阅读理解</div>
+              <div class="template-feature">实验设计建议</div>
+              <div class="template-feature">数据分析支持</div>
+            </div>
+            <button class="btn btn-secondary btn-sm w-full">
+              选择此模板 →
+            </button>
+          </div>
+
+          <!-- Template 5: 商业分析 -->
+          <div class="template-card" onclick="selectTemplate('business')">
+            <div class="template-icon">💼</div>
+            <h3 class="template-title">商业分析</h3>
+            <div class="template-features">
+              <div class="template-feature">市场调研分析</div>
+              <div class="template-feature">竞品分析报告</div>
+              <div class="template-feature">商业策略建议</div>
+            </div>
+            <button class="btn btn-secondary btn-sm w-full">
+              选择此模板 →
+            </button>
+          </div>
+
+          <!-- Template 6: 语言学习 -->
+          <div class="template-card" onclick="selectTemplate('language')">
+            <div class="template-icon">🌐</div>
+            <h3 class="template-title">语言学习</h3>
+            <div class="template-features">
+              <div class="template-feature">外语对话练习</div>
+              <div class="template-feature">语法纠正指导</div>
+              <div class="template-feature">词汇扩展学习</div>
+            </div>
+            <button class="btn btn-secondary btn-sm w-full">
+              选择此模板 →
+            </button>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    function selectTemplate(type) {
+      const templates = {
+        tech: {
+          title: '技术学习',
+          prompt: '我想学习一个新的技术，能帮我系统地了解吗？'
+        },
+        product: {
+          title: '产品设计',
+          prompt: '我正在设计一个新产品功能，需要帮助分析用户需求和体验。'
+        },
+        writing: {
+          title: '创意写作',
+          prompt: '我想创作一个故事，能帮我构思情节和角色吗？'
+        },
+        research: {
+          title: '科研助手',
+          prompt: '我需要帮助理解一篇学术论文的核心内容。'
+        },
+        business: {
+          title: '商业分析',
+          prompt: '我需要对市场和竞品进行深入分析，请帮我制定分析框架。'
+        },
+        language: {
+          title: '语言学习',
+          prompt: '我想练习外语对话，请用英语和我聊天并纠正我的错误。'
+        }
+      };
+
+      const template = templates[type];
+      if (template) {
+        // 存储到 localStorage
+        localStorage.setItem('newConversation', JSON.stringify(template));
+        // 跳转到主界面
+        location.href = 'index.html';
+      }
+    }
+
+    // 检查是否有深色模式偏好
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      // 可以在这里添加自动切换到深色模式的逻辑
+    }
+  </script>
+
+</body>
+</html>

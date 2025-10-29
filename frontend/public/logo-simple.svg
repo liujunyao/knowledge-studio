@@ -1,0 +1,22 @@
+<svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- 简化版 Logo - 只保留核心书本和知识点 -->
+
+  <!-- 背景圆形 -->
+  <circle cx="16" cy="16" r="16" fill="#6366f1"/>
+
+  <!-- 知识节点装饰 -->
+  <circle cx="8" cy="10" r="1.5" fill="white" opacity="0.6"/>
+  <circle cx="24" cy="10" r="1.5" fill="white" opacity="0.6"/>
+  <circle cx="8" cy="22" r="1.5" fill="white" opacity="0.6"/>
+  <circle cx="24" cy="22" r="1.5" fill="white" opacity="0.6"/>
+
+  <!-- 书本图标 -->
+  <g transform="translate(11, 11)">
+    <rect x="0" y="0" width="10" height="10" rx="1" fill="white"/>
+    <line x1="5" y1="0" x2="5" y2="10" stroke="#6366f1" stroke-width="1.5"/>
+    <line x1="2" y1="3" x2="4" y2="3" stroke="#6366f1" stroke-width="1" stroke-linecap="round"/>
+    <line x1="2" y1="5" x2="4" y2="5" stroke="#6366f1" stroke-width="1" stroke-linecap="round"/>
+    <line x1="6" y1="3" x2="8" y2="3" stroke="#6366f1" stroke-width="1" stroke-linecap="round"/>
+    <line x1="6" y1="5" x2="8" y2="5" stroke="#6366f1" stroke-width="1" stroke-linecap="round"/>
+  </g>
+</svg>

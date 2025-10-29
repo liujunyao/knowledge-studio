@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Knowledge Studio - AI 对话知识管理系统</title>
+  <link rel="stylesheet" href="design-system.css">
+  <link rel="stylesheet" href="components.css">
+  <style>
+    /* Page-specific styles */
+    .app-container {
+      display: flex;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    .model-icon {
+      width: 20px;
+      height: 20px;
+      border-radius: 4px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+    }
+
+    .model-openai { background-color: var(--model-openai); }
+    .model-anthropic { background-color: var(--model-anthropic); }
+    .model-google { background-color: var(--model-google); }
+    .model-ollama { background-color: var(--model-ollama); }
+  </style>
+</head>
+<body>
+
+  <!-- Main App Container -->
+  <div class="app-container">
+
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+      <!-- Logo -->
+      <div class="sidebar-header">
+        <div class="sidebar-logo">Knowledge Studio</div>
+      </div>
+
+      <!-- Search Bar -->
+      <div class="sidebar-search">
+        <div class="search-bar">
+          <span class="search-bar-icon">🔍</span>
+          <input type="text" class="input search-bar-input" placeholder="搜索对话...">
+          <span class="search-bar-shortcut">⌘K</span>
+        </div>
+      </div>
+
+      <!-- New Conversation Button -->
+      <div class="sidebar-new-conversation">
+        <button class="btn btn-primary btn-md w-full" onclick="createNewConversation()">
+          <span>➕</span>
+          <span>新对话</span>
+        </button>
+      </div>
+
+      <!-- Conversation List -->
+      <div class="sidebar-content">
+        <!-- Project Folder: 技术研究 -->
+        <div class="project-folder">
+          <div class="project-folder-header" onclick="toggleFolder(this)">
+            <span class="project-folder-icon">📁</span>
+            <span class="project-folder-name">技术研究</span>
+            <span class="project-folder-toggle">▼</span>
+          </div>
+          <div class="project-folder-content">
+            <!-- Conversation Card 1 -->
+            <div class="conversation-card active" onclick="loadConversation(1)">
+              <div class="conversation-card-header">
+                <div class="conversation-card-model">
+                  <span class="model-icon model-openai">🤖</span>
+                  <span>GPT-4</span>
+                </div>
+                <span class="conversation-card-time">14:30</span>
+              </div>
+              <div class="conversation-card-title">React 性能优化</div>
+              <div class="conversation-card-preview">
+                讨论了 React.memo、useMemo 和虚拟列表等性能优化技术...
+              </div>
+              <div class="conversation-card-footer">
+                <div class="conversation-card-tags">
+                  <span class="badge badge-primary">技术</span>
+                  <span class="badge badge-default">React</span>
+                </div>
+                <span class="conversation-card-knowledge-count">📍 3</span>
+              </div>
+            </div>
+
+            <!-- Conversation Card 2 -->
+            <div class="conversation-card" onclick="loadConversation(2)">
+              <div class="conversation-card-header">
+                <div class="conversation-card-model">
+                  <span class="model-icon model-anthropic">🧠</span>
+                  <span>Claude</span>
+                </div>
+                <span class="conversation-card-time">昨天</span>
+              </div>
+              <div class="conversation-card-title">TypeScript 类型体操</div>
+              <div class="conversation-card-preview">
+                深入学习 TypeScript 的高级类型系统和泛型编程...
+              </div>
+              <div class="conversation-card-footer">
+                <div class="conversation-card-tags">
+                  <span class="badge badge-primary">技术</span>
+                  <span class="badge badge-default">TypeScript</span>
+                </div>
+                <span class="conversation-card-knowledge-count">📍 7</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Project Folder: 产品设计 -->
+        <div class="project-folder collapsed">
+          <div class="project-folder-header" onclick="toggleFolder(this)">
+            <span class="project-folder-icon">📁</span>
+            <span class="project-folder-name">产品设计</span>
+            <span class="project-folder-toggle">▼</span>
+          </div>
+          <div class="project-folder-content">
+            <!-- Empty for now -->
+          </div>
+        </div>
+
+        <!-- Project Folder: 个人学习 -->
+        <div class="project-folder">
+          <div class="project-folder-header" onclick="toggleFolder(this)">
+            <span class="project-folder-icon">📁</span>
+            <span class="project-folder-name">个人学习</span>
+            <span class="project-folder-toggle">▼</span>
+          </div>
+          <div class="project-folder-content">
+            <!-- Conversation Card 3 -->
+            <div class="conversation-card" onclick="loadConversation(3)">
+              <div class="conversation-card-header">
+                <div class="conversation-card-model">
+                  <span class="model-icon model-google">🔷</span>
+                  <span>Gemini</span>
+                </div>
+                <span class="conversation-card-time">3天前</span>
+              </div>
+              <div class="conversation-card-title">机器学习基础</div>
+              <div class="conversation-card-preview">
+                从线性回归到神经网络的基础概念学习...
+              </div>
+              <div class="conversation-card-footer">
+                <div class="conversation-card-tags">
+                  <span class="badge badge-warning">学习</span>
+                  <span class="badge badge-default">ML</span>
+                </div>
+                <span class="conversation-card-knowledge-count">📍 12</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- User Section -->
+      <div class="sidebar-footer">
+        <div class="sidebar-user">
+          <div class="avatar avatar-sm">
+            <span>张</span>
+          </div>
+          <span class="sidebar-user-name">张三</span>
+          <button class="btn btn-ghost btn-icon btn-sm">⚙️</button>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Chat Interface -->
+    <main class="chat-interface">
+      <!-- Chat Header -->
+      <header class="chat-header">
+        <div class="flex items-center gap-3">
+          <h1 class="chat-title">React 性能优化</h1>
+          <select class="input input-sm" style="width: auto;">
+            <option>🤖 GPT-4</option>
+            <option>🧠 Claude Sonnet</option>
+            <option>🔷 Gemini Pro</option>
+            <option>🦙 Llama 3</option>
+          </select>
+        </div>
+        <div class="chat-header-actions">
+          <button class="btn btn-ghost btn-sm">⋯</button>
+          <button class="btn btn-ghost btn-sm">↗️</button>
+          <button class="btn btn-ghost btn-sm">🗑️</button>
+        </div>
+      </header>
+
+      <!-- Messages Area -->
+      <div class="chat-messages" id="messages">
+        <!-- AI Message 1 -->
+        <div class="message-bubble assistant">
+          <div class="message-avatar">
+            <div class="avatar avatar-md model-openai">
+              <span>🤖</span>
+            </div>
+          </div>
+          <div class="message-content-wrapper">
+            <div class="message-header">
+              <span class="message-sender">GPT-4</span>
+              <span class="message-time">14:30</span>
+            </div>
+            <div class="message-content">
+              <p>React 性能优化有以下几个重要方向：</p>
+              <p>1. 使用 <span class="knowledge-point not-understood" onclick="showAnnotationModal(this)">React.memo()</span> 可以避免不必要的组件重渲染</p>
+              <p>2. 使用 <span class="knowledge-point partially-understood" onclick="showAnnotationModal(this)">useMemo</span> 缓存昂贵的计算结果</p>
+              <p>3. 使用 <span class="knowledge-point mastered" onclick="showAnnotationModal(this)">虚拟列表</span> 处理大量数据时只渲染可见项</p>
+            </div>
+            <div class="message-actions">
+              <button class="btn btn-ghost btn-sm">📋 复制</button>
+              <button class="btn btn-ghost btn-sm" onclick="showAnnotationModal()">🔖 标注</button>
+              <button class="btn btn-ghost btn-sm">🔄 重新生成</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- User Message -->
+        <div class="message-bubble user">
+          <div class="message-avatar">
+            <div class="avatar avatar-md">
+              <span>张</span>
+            </div>
+          </div>
+          <div class="message-content-wrapper">
+            <div class="message-header">
+              <span class="message-sender">你</span>
+              <span class="message-time">14:35</span>
+            </div>
+            <div class="message-content">
+              <p>能详细解释一下 React.memo 的工作原理吗？</p>
+            </div>
+            <div class="message-actions">
+              <button class="btn btn-ghost btn-sm">📋 复制</button>
+              <button class="btn btn-ghost btn-sm">🔖 标注</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- AI Message 2 (Loading) -->
+        <div class="message-bubble assistant">
+          <div class="message-avatar">
+            <div class="avatar avatar-md model-openai">
+              <span>🤖</span>
+            </div>
+          </div>
+          <div class="message-content-wrapper">
+            <div class="message-header">
+              <span class="message-sender">GPT-4</span>
+              <span class="message-time">14:35</span>
+            </div>
+            <div class="message-content">
+              <p>React.memo 是一个高阶组件（HOC），它的工作原理是...</p>
+              <p style="color: var(--text-secondary); font-style: italic;">⋮ 正在生成...</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Input Area -->
+      <div class="chat-input-container">
+        <div class="chat-input-wrapper">
+          <textarea
+            class="chat-input"
+            placeholder="✨ 请输入你的问题..."
+            rows="1"
+            onkeydown="handleInputKeydown(event)"
+          ></textarea>
+          <button class="btn btn-primary btn-md">
+            发送 ➡️
+          </button>
+        </div>
+      </div>
+    </main>
+
+    <!-- Knowledge Panel -->
+    <aside class="knowledge-panel" id="knowledgePanel">
+      <!-- Tabs -->
+      <div class="knowledge-panel-tabs">
+        <button class="knowledge-panel-tab active" onclick="switchKnowledgeTab(0, this)">
+          📍 知识点
+        </button>
+        <button class="knowledge-panel-tab" onclick="switchKnowledgeTab(1, this)">
+          🔗 探索链
+        </button>
+        <button class="knowledge-panel-tab" onclick="switchKnowledgeTab(2, this)">
+          📊 图谱
+        </button>
+      </div>
+
+      <!-- Content -->
+      <div class="knowledge-panel-content" id="knowledgeContent">
+        <!-- Not Understood Group -->
+        <div class="knowledge-point-group">
+          <div class="knowledge-point-group-title">
+            <span>❓ 不理解 (2)</span>
+          </div>
+
+          <div class="knowledge-point-card">
+            <div class="knowledge-point-card-title">React.memo()</div>
+            <div class="knowledge-point-card-meta">来自: GPT-4 · 14:30</div>
+            <div class="knowledge-point-card-actions">
+              <button class="btn btn-ghost btn-sm">查看详情</button>
+              <button class="btn btn-primary btn-sm" onclick="showExplorationModal()">深入探索 →</button>
+            </div>
+          </div>
+
+          <div class="knowledge-point-card">
+            <div class="knowledge-point-card-title">虚拟列表实现</div>
+            <div class="knowledge-point-card-meta">来自: GPT-4 · 14:32</div>
+            <div class="knowledge-point-card-actions">
+              <button class="btn btn-ghost btn-sm">查看详情</button>
+              <button class="btn btn-primary btn-sm" onclick="showExplorationModal()">深入探索 →</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Partially Understood Group -->
+        <div class="knowledge-point-group">
+          <div class="knowledge-point-group-title">
+            <span>⚠️ 学习中 (1)</span>
+          </div>
+
+          <div class="knowledge-point-card">
+            <div class="knowledge-point-card-title">useMemo</div>
+            <div class="knowledge-point-card-meta">来自: GPT-4 · 14:30</div>
+            <div class="knowledge-point-card-actions">
+              <button class="btn btn-ghost btn-sm">查看详情</button>
+              <button class="btn btn-primary btn-sm" onclick="showExplorationModal()">深入探索 →</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Mastered Group -->
+        <div class="knowledge-point-group">
+          <div class="knowledge-point-group-title">
+            <span>✅ 已掌握 (1)</span>
+          </div>
+
+          <div class="knowledge-point-card">
+            <div class="knowledge-point-card-title">虚拟列表</div>
+            <div class="knowledge-point-card-meta">来自: GPT-4 · 14:31</div>
+            <div class="knowledge-point-card-actions">
+              <button class="btn btn-ghost btn-sm">查看详情</button>
+            </div>
+          </div>
+        </div>
+
+        <hr class="divider">
+
+        <button class="btn btn-secondary btn-sm w-full">清空所有</button>
+      </div>
+    </aside>
+
+  </div>
+
+  <!-- Modal: Knowledge Point Annotation -->
+  <div class="modal-backdrop hidden" id="annotationModal" onclick="if(event.target === this) this.classList.add('hidden')">
+    <div class="modal" onclick="event.stopPropagation()">
+      <div class="modal-header">
+        <h2 class="modal-title">📍 标注知识点</h2>
+        <button class="btn btn-ghost btn-sm" onclick="document.getElementById('annotationModal').classList.add('hidden')">✕</button>
+      </div>
+      <div class="modal-content">
+        <div class="mb-4">
+          <label class="text-sm font-medium mb-2 block">选中内容:</label>
+          <div class="input" style="background: var(--bg-tertiary);">React.memo()</div>
+        </div>
+
+        <div class="mb-4">
+          <label class="text-sm font-medium mb-2 block">理解状态: *</label>
+          <div class="flex gap-3">
+            <button class="btn btn-secondary flex-1" onclick="selectStatus(this, 'not-understood')">
+              ❓ 不理解
+            </button>
+            <button class="btn btn-secondary flex-1" onclick="selectStatus(this, 'partial')">
+              ⚠️ 部分理解
+            </button>
+            <button class="btn btn-secondary flex-1" onclick="selectStatus(this, 'mastered')">
+              ✅ 已掌握
+            </button>
+          </div>
+        </div>
+
+        <div class="mb-4">
+          <label class="text-sm font-medium mb-2 block">备注 (可选):</label>
+          <textarea class="input textarea" placeholder="添加你的笔记..."></textarea>
+        </div>
+
+        <div>
+          <label class="text-sm font-medium mb-2 block">相关问题 (可选):</label>
+          <textarea class="input textarea" placeholder="• 什么时候用 memo?&#10;• 和 useMemo 的区别是什么?"></textarea>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" onclick="document.getElementById('annotationModal').classList.add('hidden')">取消</button>
+        <button class="btn btn-primary" onclick="confirmAnnotation()">确认标注</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: Deep Exploration -->
+  <div class="modal-backdrop hidden" id="explorationModal" onclick="if(event.target === this) this.classList.add('hidden')">
+    <div class="modal" onclick="event.stopPropagation()">
+      <div class="modal-header">
+        <h2 class="modal-title">🚀 深入探索: React.memo()</h2>
+        <button class="btn btn-ghost btn-sm" onclick="document.getElementById('explorationModal').classList.add('hidden')">✕</button>
+      </div>
+      <div class="modal-content">
+        <div class="mb-4">
+          <label class="text-sm font-medium mb-2 block">选择探索方向:</label>
+
+          <label class="card cursor-pointer mb-2">
+            <input type="radio" name="exploration" value="basic" style="margin-right: 8px;">
+            <div>
+              <div class="font-medium">💡 基础概念解释</div>
+              <div class="text-sm text-secondary">详细解释 React.memo 是什么以及工作原理</div>
+            </div>
+          </label>
+
+          <label class="card cursor-pointer mb-2">
+            <input type="radio" name="exploration" value="examples" style="margin-right: 8px;">
+            <div>
+              <div class="font-medium">📝 实际应用示例</div>
+              <div class="text-sm text-secondary">展示 React.memo 的实际使用场景和代码示例</div>
+            </div>
+          </label>
+
+          <label class="card cursor-pointer mb-2">
+            <input type="radio" name="exploration" value="deep" checked style="margin-right: 8px;">
+            <div>
+              <div class="font-medium">🔬 深入技术原理</div>
+              <div class="text-sm text-secondary">深入分析 React.memo 的内部实现和比较机制</div>
+            </div>
+          </label>
+
+          <label class="card cursor-pointer mb-2">
+            <input type="radio" name="exploration" value="custom" style="margin-right: 8px;">
+            <div>
+              <div class="font-medium">✏️ 自定义问题</div>
+              <textarea class="input mt-2" placeholder="输入你的问题..."></textarea>
+            </div>
+          </label>
+        </div>
+
+        <div class="mb-4">
+          <label class="text-sm font-medium mb-2 block">🤖 使用模型:</label>
+          <select class="input">
+            <option>GPT-4</option>
+            <option>Claude Sonnet</option>
+            <option>Gemini Pro</option>
+          </select>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" onclick="document.getElementById('explorationModal').classList.add('hidden')">取消</button>
+        <button class="btn btn-primary" onclick="startExploration()">开始探索</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- JavaScript -->
+  <script src="app.js"></script>
+
+</body>
+</html>
