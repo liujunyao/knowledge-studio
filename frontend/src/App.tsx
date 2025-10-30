@@ -73,7 +73,7 @@ function App() {
               <Space direction="vertical" size={16} style={{ alignItems: 'center', width: '100%' }}>
                 <Spin size="large" />
                 <div style={{ fontSize: 16, color: '#475569' }}>正在启动服务，请稍候…</div>
-                </Space>
+              </Space>
             ) : (
               <Space direction="vertical" size={18} style={{ alignItems: 'center', width: '100%' }}>
                 <div style={{ fontSize: 32 }}>⚠️</div>
