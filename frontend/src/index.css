@@ -148,3 +148,71 @@ textarea,
 select {
   transition: all 150ms ease;
 }
+
+.space-card {
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.space-card:hover {
+  box-shadow: 0 16px 32px -12px rgba(15, 23, 42, 0.25);
+  transform: translateY(-2px);
+}
+
+.space-card-body {
+  width: 100%;
+}
+
+.space-card-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.space-card-edit {
+  opacity: 0;
+  transition: opacity 0.2s ease, color 0.2s ease;
+  padding: 0;
+  height: auto;
+  color: #64748b;
+}
+
+.space-card:hover .space-card-edit {
+  opacity: 1;
+}
+
+.space-card-edit:hover,
+.space-card-edit:focus-visible {
+  color: #2563eb;
+}
+
+.ant-tree {
+  font-size: 14px;
+}
+
+.ant-tree-treenode {
+  width: 100%;
+}
+
+.ant-tree-list-holder-inner .ant-tree-node-content-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  width: 100%;
+  border-radius: 6px;
+  padding: 4px 8px;
+  cursor: pointer;
+  box-sizing: border-box;
+}
+
+.ant-tree-title {
+  width: 100%;
+}
+
+.ant-tree-list-holder-inner .ant-tree-node-content-wrapper:hover {
+  background-color: #f7f8fa;
+}
+
+.ant-tree-switcher {
+  margin-inline-end: 0;
+}

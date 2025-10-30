@@ -7,7 +7,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from contextlib import asynccontextmanager
 import uvicorn
 
-from app.api import conversations, knowledge, models as models_api, chat, settings
+from app.api import conversations, knowledge, models as models_api, chat, settings, spaces
 from app.db.database import init_db
 
 @asynccontextmanager
@@ -45,6 +45,7 @@ app.include_router(knowledge.router, prefix="/api/knowledge", tags=["Knowledge"]
 app.include_router(models_api.router, prefix="/api/models", tags=["Models"])
 app.include_router(chat.router, prefix="/api/chat", tags=["Chat"])
 app.include_router(settings.router, prefix="/api/settings", tags=["Settings"])
+app.include_router(spaces.router, prefix="/api/spaces", tags=["Spaces"])
 
 @app.get("/")
 async def root():

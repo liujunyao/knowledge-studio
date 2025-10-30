@@ -30,7 +30,7 @@ Base = declarative_base()
 
 async def init_db():
     """Initialize database (create tables)"""
-    from app.models import conversation, knowledge, settings  # Import all models
+    from app.models import conversation, knowledge, settings, space  # noqa: F401
 
     async with engine.begin() as conn:
         await conn.run_sync(Base.metadata.create_all)

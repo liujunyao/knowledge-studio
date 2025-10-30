@@ -121,14 +121,34 @@ export interface APIKeyStatus {
   has_key: boolean;
 }
 
+export interface KnowledgeSpace {
+  id: string;
+  name: string;
+  description?: string;
+  color: string;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface CreateSpaceRequest {
+  name: string;
+  description?: string;
+  color?: string;
+}
+
+export interface UpdateSpaceRequest {
+  name?: string;
+  description?: string;
+  color?: string;
+}
 // API 基础 URL
 const getBaseUrl = (): string => {
   // 在 Electron 环境中使用 electronAPI
   if (typeof window !== 'undefined' && (window as any).electronAPI) {
-    return 'http://127.0.0.1:8000';
+    return 'http://127.0.0.1:13560';
   }
   // Web 环境中使用环境变量或默认值
-  return import.meta.env.VITE_API_URL || 'http://localhost:8000';
+  return import.meta.env.VITE_API_URL || 'http://localhost:13560';
 };
 
 // API 请求封装
@@ -315,6 +335,25 @@ class ApiClient {
   async deleteAPIKey(provider: string): Promise<{ message: string }> {
     return this.request<{ message: string }>(`/api/settings/api-keys/${provider}`, {
       method: 'DELETE',
+    });
+  }
+
+  // Knowledge Spaces
+  async listSpaces(): Promise<KnowledgeSpace[]> {
+    return this.request<KnowledgeSpace[]>('/api/spaces/');
+  }
+
+  async createSpace(data: CreateSpaceRequest): Promise<KnowledgeSpace> {
+    return this.request<KnowledgeSpace>('/api/spaces/', {
+      method: 'POST',
+      body: JSON.stringify(data),
+    });
+  }
+
+  async updateSpace(spaceId: string, data: UpdateSpaceRequest): Promise<KnowledgeSpace> {
+    return this.request<KnowledgeSpace>(`/api/spaces/${spaceId}`, {
+      method: 'PUT',
+      body: JSON.stringify(data),
     });
   }
 }

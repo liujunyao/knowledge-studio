@@ -37,6 +37,14 @@ Knowledge Studio 是一款桌面应用,旨在帮助用户收集、组织和深�
 
 ### 项目结构
 
+项目目录遵循以下规范,便于前后端与设计协作:
+
+- `frontend/` 前端代码(React + Electron)
+- `backend/` 后端代码(FastAPI)
+- `docs/` 各类产品与技术文档
+- `prototype/` HTML 原型资产
+- `prototype/design/` 设计稿与视觉规范
+
 ```
 knowledge-studio/
 ├── frontend/               # React + Electron 前端

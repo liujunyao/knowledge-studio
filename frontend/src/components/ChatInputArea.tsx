@@ -1,6 +1,11 @@
 import { useState, useRef } from 'react';
 import {
-  Button, Input, Tooltip, Dropdown, message, Badge
+  App as AntApp,
+  Badge,
+  Button,
+  Dropdown,
+  Input,
+  Tooltip,
 } from 'antd';
 import {
   SendOutlined, PaperClipOutlined, PictureOutlined,
@@ -32,6 +37,7 @@ export default function ChatInputArea({
   const [tools, setTools] = useState<string[]>([]);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const imageInputRef = useRef<HTMLInputElement>(null);
+  const { message } = AntApp.useApp();
 
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
